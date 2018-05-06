@@ -1,0 +1,16 @@
+
+<div class="">
+    <h1>
+        {{ article.title }}
+    </h1>
+
+    <p>
+        {{ article.contents }}
+    </p>
+
+    <p>
+        {% for category in article.category %}
+            {{ category.name }}
+        {% endfor %}
+    </p>
+</div>
