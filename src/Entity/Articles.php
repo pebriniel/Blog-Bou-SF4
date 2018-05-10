@@ -40,8 +40,13 @@ class Articles
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="articles")
-     */
+     */ 
     private $Category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $User;
 
     public function __construct()
     {
@@ -128,6 +133,18 @@ class Articles
                 $category->setArticles(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }

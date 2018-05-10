@@ -6,7 +6,26 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        {% if app.user %}
+        <div>
+            Bonjour {{ app.user.username }}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="/admin">Administration</a>
+            {% endif %}
+
+            <a href="/logout">logout</a>
+        </div>
+        {% else %}
+        <div>
+            Invité
+            <a href="/login">login</a>
+        </div>
+        {% endif %}
+
         {% block body %}{% endblock %}
+
         {% block javascripts %}{% endblock %}
+
     </body>
 </html>

@@ -1,3 +1,6 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
 
 <div class="">
     <h1>
@@ -13,4 +16,9 @@
             {{ category.name }}
         {% endfor %}
     </p>
+    <p>
+        écrit par {{ article.user.fullname }}
+    </p>
 </div>
+
+{% endblock body %}

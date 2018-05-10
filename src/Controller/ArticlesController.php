@@ -2,6 +2,10 @@
 // src/Controller/ArticlesController.php
 namespace App\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security AS Security;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,20 +20,20 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Articles;
 use App\Entity\Category;
 
-
 class ArticlesController extends Controller
 {
     /**
-      * @Route("/article/{id}",
+      * @Route("/article/{id}/{slug}",
+      *         defaults={"slug": "html"},
       *         name="blog_article",
       *         requirements={"id"="\d+"})
       */
-    public function article($id = 1)
+    public function article($id = 1, $slug)
     {
-        $number = mt_rand(0, 100);
-        $Articles = $this->getDoctrine()
-            ->getRepository(Articles::class)
-            ->find($id);
+        $repository = $this->getDoctrine()
+            ->getRepository(Articles::class);
+
+        $Articles = $repository->find($id);
 
         if (!$Articles) {
             throw $this->createNotFoundException(
@@ -37,17 +41,26 @@ class ArticlesController extends Controller
             );
         }
 
-        return $this->render('blogs/article.html.twig', array(
-            'number' => $number,
+        $response = $this->render('blogs/article.html.twig', array(
             'article' => $Articles
         ));
+
+        if($slug == 'json'){
+            $response = $this->returnJson($Articles);
+        }
+        return $response;
     }
 
     /**
       * @Route("/create",
       *         name="blog_article_create")
       */
-    public function create(Request $request){
+    public function create(Request $request, AuthorizationCheckerInterface $authChecker){
+
+        if (!$authChecker->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('You cannot access this page!');
+        }    
+
         $Articles = new Articles();
 
         $Articles->setTitle('Titre de l\'article');
@@ -71,6 +84,7 @@ class ArticlesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $Articles = $form->getData();
+            $Articles->setUser($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($Articles);
@@ -90,8 +104,15 @@ class ArticlesController extends Controller
       */
     public function succcess(){
 
-        return $this->render('blogs/success.html.twig',array(
+        return $this->render('blogs/crete_success.html.twig',array(
         ));
+    }
+
+    private function returnJson(Articles $Articles){
+        $article['title'] = $Articles->getTitle();
+        $article['contents'] = $Articles->getContents();
+
+        return $this->json($article);
     }
 
 }
