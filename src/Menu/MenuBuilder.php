@@ -24,8 +24,7 @@ class MenuBuilder
 
     public function createMainMenu(array $options)
     {
-        // $sc = $this->container->get('security.context');
-        
+       
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttributes(array('class' => 'nav'));
         $menu->setlinkAttributes(array('class' => 'nav'));
