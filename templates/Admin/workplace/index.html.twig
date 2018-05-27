@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Workplace index{% endblock %}
+
+{% block body %}
+    <h1>Workplace index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
+                <th>UrlClean</th>
+                <th>TypeContrat</th>
+                <th>Visible</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for workplace in workplaces %}
+            <tr>
+                <td>{{ workplace.id }}</td>
+                <td>{{ workplace.name }}</td>
+                <td>{{ workplace.dateStart ? workplace.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ workplace.dateEnd ? workplace.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ workplace.urlClean }}</td>
+                <td>{{ workplace.typeContrat }}</td>
+                <td>{{ workplace.visible ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('workplace_show', {'id': workplace.id}) }}">show</a>
+                    <a href="{{ path('workplace_edit', {'id': workplace.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('workplace_new') }}">Create new</a>
+{% endblock %}

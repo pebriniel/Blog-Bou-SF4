@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Workplace{% endblock %}
+
+{% block body %}
+    <h1>Workplace</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ workplace.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ workplace.name }}</td>
+            </tr>
+            <tr>
+                <th>DateStart</th>
+                <td>{{ workplace.dateStart ? workplace.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEnd</th>
+                <td>{{ workplace.dateEnd ? workplace.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UrlClean</th>
+                <td>{{ workplace.urlClean }}</td>
+            </tr>
+            <tr>
+                <th>TypeContrat</th>
+                <td>{{ workplace.typeContrat }}</td>
+            </tr>
+            <tr>
+                <th>Visible</th>
+                <td>{{ workplace.visible ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('workplace_index') }}">back to list</a>
+
+    <a href="{{ path('workplace_edit', {'id': workplace.id}) }}">edit</a>
+
+    {{ include('workplace/_delete_form.html.twig') }}
+{% endblock %}
