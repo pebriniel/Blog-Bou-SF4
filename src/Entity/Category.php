@@ -24,6 +24,21 @@ class Category
     private $Name;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $works;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $hackathon;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $formation;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Articles", mappedBy="Category")
      */
     private $articles;
@@ -78,6 +93,42 @@ class Category
             $this->articles->removeElement($article);
             $article->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getWorks(): ?bool
+    {
+        return $this->works;
+    }
+
+    public function setWorks(?bool $works): self
+    {
+        $this->works = $works;
+
+        return $this;
+    }
+
+    public function getHackathon(): ?bool
+    {
+        return $this->hackathon;
+    }
+
+    public function setHackathon(?bool $hackathon): self
+    {
+        $this->hackathon = $hackathon;
+
+        return $this;
+    }
+
+    public function getFormation(): ?bool
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(?bool $formation): self
+    {
+        $this->formation = $formation;
 
         return $this;
     }

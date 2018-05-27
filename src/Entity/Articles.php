@@ -39,6 +39,21 @@ class Articles
     private $dateUpdate;
 
     /**
+     * @ORM\Column(type="string", length=150)
+     */
+    private $urlClean;
+
+    /**
+     * @ORM\Column(type="smallint", options={"default":0})
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $visible;    
+    
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="articles")
      */ 
     private $Category;
@@ -145,6 +160,42 @@ class Articles
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function getUrlClean(): ?string
+    {
+        return $this->urlClean;
+    }
+
+    public function setUrlClean(string $urlClean): self
+    {
+        $this->urlClean = $urlClean;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(?bool $visible): self
+    {
+        $this->visible = $visible;
 
         return $this;
     }
