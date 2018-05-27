@@ -49,7 +49,13 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
 
-        $menu->addChild('Administration', array('route' => 'index'));
+        $menu->addChild('Articles', array('route' => 'articles_index'));
+        $menu->addChild('Categories', array('route' => 'category_index'));
+        $menu->addChild('Projects', array('route' => 'projects_index'));
+        $menu->addChild('Formations', array('route' => 'formation_index'));
+        $menu->addChild('Technologies', array('route' => 'technology_index'));
+        $menu->addChild('Workplace', array('route' => 'workplace_index'));
+        $menu->addChild('Addresses', array('route' => 'address_index'));
 
         return $menu;
     }
