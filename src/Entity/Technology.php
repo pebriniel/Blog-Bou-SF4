@@ -38,11 +38,6 @@ class Technology
      */
     private $inprogress;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Projects", mappedBy="Technology")
-     */
-    private $Technology;
-
     public function __construct()
     {
         $this->dateStart = new ArrayCollection();
@@ -111,4 +106,8 @@ class Technology
 
         return $this;
     }    
+
+    public function __toString(){
+        return $this->getName();
+    }
 }

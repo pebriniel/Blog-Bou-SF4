@@ -169,4 +169,9 @@ class User implements UserInterface, \Serializable
     {
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
     }
+
+    public function __toString() 
+    {
+        return $this->getUsername();
+    }
 }
