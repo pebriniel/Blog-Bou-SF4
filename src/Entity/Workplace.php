@@ -49,9 +49,10 @@ class Workplace
     private $visible;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="workplace", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="workplaces")
      */
     private $Address;
+
 
     public function __construct()
     {
@@ -146,4 +147,5 @@ class Workplace
 
         return $this;
     }
+
 }

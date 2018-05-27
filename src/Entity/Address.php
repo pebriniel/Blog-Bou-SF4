@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,9 +39,14 @@ class Address
     private $phone;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Workplace", mappedBy="Address", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Workplace", mappedBy="Address")
      */
-    private $workplace;
+    private $workplaces;
+
+    public function __construct()
+    {
+        $this->workplaces = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -94,19 +101,32 @@ class Address
         return $this;
     }
 
-    public function getWorkplace(): ?Workplace
+    /**
+     * @return Collection|Workplace[]
+     */
+    public function getWorkplaces(): Collection
     {
-        return $this->workplace;
+        return $this->workplaces;
     }
 
-    public function setWorkplace(?Workplace $workplace): self
+    public function addWorkplace(Workplace $workplace): self
     {
-        $this->workplace = $workplace;
+        if (!$this->workplaces->contains($workplace)) {
+            $this->workplaces[] = $workplace;
+            $workplace->setAddress($this);
+        }
 
-        // set (or unset) the owning side of the relation if necessary
-        $newAddress = $workplace === null ? null : $this;
-        if ($newAddress !== $workplace->getAddress()) {
-            $workplace->setAddress($newAddress);
+        return $this;
+    }
+
+    public function removeWorkplace(Workplace $workplace): self
+    {
+        if ($this->workplaces->contains($workplace)) {
+            $this->workplaces->removeElement($workplace);
+            // set the owning side to null (unless already changed)
+            if ($workplace->getAddress() === $this) {
+                $workplace->setAddress(null);
+            }
         }
 
         return $this;

@@ -16,7 +16,6 @@ class AddressType extends AbstractType
             ->add('country')
             ->add('address')
             ->add('phone')
-            ->add('workplace')
         ;
     }
 

@@ -13,7 +13,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        return $this->render('blogs/index.html.twig');
+        return $this->render('Blogs/index.html.twig');
     }
 
     /**

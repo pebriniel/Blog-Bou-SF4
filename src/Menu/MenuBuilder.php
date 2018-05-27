@@ -55,7 +55,7 @@ class MenuBuilder
         $menu->addChild('Formations', array('route' => 'formation_index'));
         $menu->addChild('Technologies', array('route' => 'technology_index'));
         $menu->addChild('Workplace', array('route' => 'workplace_index'));
-        $menu->addChild('Addresses', array('route' => 'address_index'));
+        $menu->addChild('Adresses', array('route' => 'address_index'));
 
         return $menu;
     }
